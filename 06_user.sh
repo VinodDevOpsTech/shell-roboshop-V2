@@ -1,3 +1,5 @@
+#!/bin/bash
+
 app_name=user
 source ./common.sh
 checkroot
