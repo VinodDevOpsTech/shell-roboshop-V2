@@ -39,3 +39,52 @@ repo_setting(){
     cp $app_name.repo /etc/yum.repos.d/mongo.repo
     VALIDATE $? "Adding $app_name repo..."
 }
+
+app_setup(){
+    
+    id roboshop &>>$LOGS_FILE
+
+    if [ $? -ne 0 ]; then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOGS_FILE
+    VALIDATE $? "Creating roboshop system user"
+    else
+        echo -e "System user roboshop already created ... $Y SKIPPING $N"
+    fi
+
+    rm -rf /app
+    VALIDATE $? "Removing existing code"
+
+    rm -rf /tmp/catalogue.zip
+    VALIDATE $? "Removed catalogue zip"
+
+    mkdir -p /app  &>>$LOGS_FILE
+    VALIDATE $? "Creating app directory"
+
+    curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip  &>>$LOGS_FILE
+    cd /app 
+    unzip /tmp/catalogue.zip &>>$LOGS_FILE
+    VALIDATE $? "Downloaded and extracted catalogue code"
+}
+
+nodejs_setup(){
+    dnf module disable nodejs -y &>>$LOGS_FILE
+    dnf module enable nodejs:20 -y  &>>$LOGS_FILE
+    dnf install nodejs -y &>>$LOGS_FILE
+    VALIDATE $? "Installing NodeJS:20"
+    
+    npm install  &>>$LOGS_FILE
+    VALIDATE $? "Installing dependencies"
+}
+systemd_setup(){
+    cp $SCRIPT_DIR/$app_name.service /etc/systemd/system/$app_name.service
+    VALIDATE $? "Created systemctl service"
+
+    systemctl daemon-reload
+    systemctl enable $app_name &>>$LOGS_FILE
+    VALIDATE $? "enabling $?app_name
+}
+
+app_restart(){
+    systemctl restart $app_name &>>$LOGS_FILE
+    VALIDATE $? "Restarting $app_name"
+}
