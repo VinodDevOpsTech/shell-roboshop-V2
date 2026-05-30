@@ -70,7 +70,7 @@ nodejs_setup(){
 }
 
 systemd_setup(){
-    cp /home/ec2-user/shell-roboshop-V2/shipping.service /etc/systemd/system/$app_name.service
+    cp /home/ec2-user/shell-roboshop-V2/$app_name.service /etc/systemd/system/$app_name.service
     VALIDATE $? "Created systemctl service"
 
     systemctl daemon-reload
