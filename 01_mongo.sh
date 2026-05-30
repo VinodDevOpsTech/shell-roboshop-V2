@@ -20,4 +20,3 @@ VALIDATE $? "Allowing remote connections to user"
 systemctl restart mongod
 VALIDATE $? "restarting mongoDB"
 
-print_total_time

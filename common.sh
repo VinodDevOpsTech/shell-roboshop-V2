@@ -34,3 +34,8 @@ VALIDATE(){
 print_total_time(){
     echo "$TIMESTAMP [INFO] code excuted in $SECONDS seconds"
 }
+
+repo_setting(){
+    cp $app_name.repo /etc/yum.repos.d/mongo.repo
+    VALIDATE $? "Adding $app_name repo..."
+}
