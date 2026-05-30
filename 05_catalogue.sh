@@ -21,4 +21,6 @@ if [ $INDEX -lt 0 ]; then
 else
     echo -e "Products already loaded ... $Y SKIPPING $N"
 fi
+
+app_restart
 print_total_time
