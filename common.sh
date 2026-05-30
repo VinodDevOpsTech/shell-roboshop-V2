@@ -12,6 +12,8 @@ N="\e[0m"
 TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 USER_ID=$(id -u)
 
+echo "$TIMESTAMP [INFO] Script started..."
+
 
 checkroot(){
     if [ $USER_ID -ne 0 ]; then
@@ -30,5 +32,5 @@ VALIDATE(){
 }
 
 print_total_time(){
-    echo "$TIMESTAMP [INFO] code excuted in $SECONDS"
+    echo "$TIMESTAMP [INFO] code excuted in $SECONDS seconds"
 }
