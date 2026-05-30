@@ -1,7 +1,8 @@
+#!/bin/bash
+
 app_name=frontend
 source ./common.sh
-checkroot
-
+check_root
 
 dnf module disable nginx -y &>> $LOGS_FILE
 dnf module enable nginx:1.24 -y &>> $LOGS_FILE
